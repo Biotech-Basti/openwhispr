@@ -20,8 +20,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run prebuild:mac
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
       - run: npm run build:renderer
-      - run: npx electron-builder --mac --arm64 --config electron-builder.unsigned-mac.json
+      - run: npx electron-builder --mac --arm64 --config electron-builder.unsigned-mac.json --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
       - uses: actions/upload-artifact@v4
@@ -42,8 +45,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run prebuild:win
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
       - run: npm run build:renderer
-      - run: npx electron-builder --win --config electron-builder.unsigned-win.json
+      - run: npx electron-builder --win --config electron-builder.unsigned-win.json --publish never
       - uses: actions/upload-artifact@v4
         with:
           name: openwhispr-windows-x64
